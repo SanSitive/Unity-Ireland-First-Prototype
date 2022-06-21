@@ -15,6 +15,7 @@ public class SpawnManager : MonoBehaviour
         {
             Instantiate(balls, GenerateRandomPos(),balls.transform.rotation);
         }
+        
     }
 
     // Generate random position

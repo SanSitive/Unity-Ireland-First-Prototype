@@ -12,12 +12,17 @@ public class StartForce : MonoBehaviour
     private Rigidbody objectRb;
     private float slowForce = 2;
 
+    private float initialMass;
+    private bool isAboveCeilLimit;
+
+
     Vector3 randomForce;
 
     // Start is called before the first frame update
     void Start()
     {
         objectRb = GetComponent<Rigidbody>();
+        initialMass = objectRb.mass;
         randomForce = GenerateRandomForce();
         objectRb.AddForce(randomForce, ForceMode.Impulse);
         objectRb.AddTorque(randomForce);
@@ -33,7 +38,14 @@ public class StartForce : MonoBehaviour
             Vector3 oppositeDirection = new Vector3(transform.position.x, -transform.position.y, transform.position.z);
             //objectRb.AddForce(-oppositeDirection, ForceMode.Impulse);
             //objectRb.AddTorque(-oppositeDirection);
-            Debug.Log($"Force = {slowForce} and opposite direction = {oppositeDirection}");
+            //objectRb.velocity = new Vector3(objectRb.velocity.x,objectRb.velocity.y * 0.5f,objectRb.velocity.z);
+            
+            objectRb.mass *= 1.2f;
+            Debug.Log($"Current object = {this} and mass = {objectRb.mass}");
+        }else if (objectRb.mass != initialMass)
+        {
+            objectRb.mass = initialMass;
+            //objectRb.mass /= 2;
         }
     }
 
@@ -45,4 +57,5 @@ public class StartForce : MonoBehaviour
         float randomZ = Random.Range(-startForce, startForce);
         return new Vector3(randomX, randomY, randomZ);
     }
+
 }
